@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  master:
+    image: api-benchmark
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8089:8089"
+    volumes:
+      - ./:/app
+    command: locust --config conf/locust.conf --master
+
+  worker:
+    
+    image: api-benchmark
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/app
+    command: locust --worker --master-host master
