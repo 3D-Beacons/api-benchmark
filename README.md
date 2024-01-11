@@ -22,9 +22,11 @@ apis:
   - name: <NAME FOR THE REQUEST 1>
     path: <URL PATH 1>
     params: <PAYLOAD FILE>
+    method: <HTTP METHOD>
   - name: <NAME FOR THE REQUEST 2>
     path: <URL PATH 2>
     params: <PAYLOAD FILE>
+    method: <HTTP METHOD>
 ...
 ```
 
@@ -64,6 +66,5 @@ $ docker compose up --scale worker=2
 ```
 
 ## Assumptions
-- The API is a Rest API
-- Only supports GET requests
+- The API is a REST API
 - 404 response is considered as a success
