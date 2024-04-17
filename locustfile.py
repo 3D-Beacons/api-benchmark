@@ -14,13 +14,21 @@ class User(FastHttpUser):
 
 def create_task(user_object: User, url: str, url_group, csv_reader: CSVReader, method="GET"):
     def api_task(*args):
-        param = next(csv_reader)[0]
+        param = next(csv_reader)
+
         if method == "POST":
             with user_object.client.post(url, data=param, name=url_group, catch_response=True) as response:
                 if response.status_code == 404:
                     response.success()
         else:
-            with user_object.client.get(f"{url}/{param}", name=url_group, catch_response=True) as response:            
+            parts = []
+            for part in url.split("/"):
+                if part.startswith(":"):
+                    parts.append(param.pop(0))
+                else:
+                    parts.append(part)
+            final_url = "/".join(parts)
+            with user_object.client.get(final_url, name=url_group, catch_response=True) as response:
                 if response.status_code == 404:
                     response.success()
 
